@@ -57,7 +57,7 @@ $(OUT_CC): $(SRC_CC)
 $(OUT_JS): $(SRC_JS)
 	@ echo building JS...
 	@ mkdir -p $(DIR_BUILD)
-	@ find src -name "*.js" -print0 | xargs -0 -I {} cp {} build/
+	@ find src -name "*.js" ! -path "src/gpgme/*" ! -path "src/gpgmepp/*" -print0 | xargs -0 -I {} cp {} build/
 	@ $(DONE_OK) "building JS"
 
 test:

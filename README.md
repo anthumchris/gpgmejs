@@ -1,19 +1,30 @@
-This repo tests JavaScript/TypeScript [nodejs addons](https://nodejs.org/api/addons.html)/bindings to C/C++ libraries using:
+*incomplete — tracking [Official GPGme interface/bindings for Nodejs (node)](https://dev.gnupg.org/T7975)*
+
+# gpgmejs
+
+JavaScript/TypeScript bindings ([nodejs addons](https://nodejs.org/api/addons.html)) to [GPGME](https://www.gnupg.org/software/gpgme/index.html) using:
 
 1. [node-addon-api](https://github.com/nodejs/node-addon-api?tab=readme-ov-file#node-addon-api-module) ([Node-API](https://nodejs.org/api/n-api.html#node-api)) for Application Binary Interface (ABI) stability
 1. make/Makefile instead of [node-gyp](https://github.com/nodejs/node-gyp) to be faster and lightweight with fewer dependencies installed
 1. [`--experimental-addon-modules`](https://nodejs.org/docs/latest/api/cli.html#--experimental-addon-modules) to provide `import` syntax instead of `require()` syntax ([ECMAScript Modules (ESM) / JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) vs [CommonJS (CJS)](https://nodejs.org/api/modules.html#modules-commonjs-modules)
 
+## Usage
+
 ## Developers
 
-1. Install `nodejs` (npm), `make`, `watchexec`, with your system's package manager, if needed
-1. Run `npm install`
+1. Install `git`, `nodejs` (npm), `make`, `watchexec`, with your system's package manager, if needed
+1. Run
+   ```sh
+   git submodule update --init --depth 1
+   npm install
+   ```
+2. Use workflow tasks below
 
 ### Workflow tasks
 
 Run tasks with either `make [task]` or `npm run [task]`; npm scripts mirror make targets
 
-**Examples from the [Makefile](Makefile):**
+Examples from the [Makefile](Makefile):
 
 ```sh
 make                # (make all)
