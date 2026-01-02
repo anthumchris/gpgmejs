@@ -1,11 +1,10 @@
-TARGET 		:= addon
 DIR_SRC 	:= src
 DIR_BUILD	:= build
 DIR_TEST	:= test
-SRC_CC 		:= $(DIR_SRC)/$(TARGET).cc
+SRC_CC 		:= $(DIR_SRC)/*.cc
 SRC_JS 		:= $(DIR_SRC)/*.js
-OUT_CC 		:= $(DIR_BUILD)/$(TARGET).node
-OUT_JS 		:= $(DIR_BUILD)/$(TARGET).js
+OUT_CC 		:= $(DIR_BUILD)/gpgmejs.node
+OUT_JS 		:= $(DIR_BUILD)/gpgme.js
 
 NODE_ARR	:= $(shell node -p "const p=require('path'); \
 	[p.resolve(process.execPath, '..', '..'), require('node-addon-api').include].join(' ')")
@@ -65,7 +64,7 @@ test:
 	@NODE_FILES="$(DIR_BUILD)/*.node"; \
 	FILES="$$(ls $$NODE_FILES 2>/dev/null)"; \
 	if [ -n "$$FILES" ]; then \
-		node --experimental-addon-modules --no-warnings=ExperimentalWarning $(DIR_TEST)/*.js; \
+		node --experimental-addon-modules --no-warnings=ExperimentalWarning $(DIR_TEST)/*.js && \
 		$(DONE_OK) "testing"; \
 	else \
 		$(DONE_ERROR) "$$NODE_FILES files don't exist. Consider \"make build\" first"; \
