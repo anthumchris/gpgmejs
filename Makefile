@@ -1,10 +1,11 @@
-DIR_SRC 	:= src
-DIR_BUILD	:= build
-DIR_TEST	:= test
-SRC_CC 		:= $(DIR_SRC)/*.cc
-SRC_JS 		:= $(DIR_SRC)/*.js
-OUT_CC 		:= $(DIR_BUILD)/gpgmejs.node
-OUT_JS 		:= $(DIR_BUILD)/gpgme.js
+ROOT            := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+DIR_SRC         := $(ROOT)/src
+DIR_BUILD       := $(ROOT)/build
+DIR_TEST        := $(ROOT)/test
+SRC_CC          := $(DIR_SRC)/*.cc
+SRC_JS          := $(DIR_SRC)/*.js
+OUT_CC          := $(DIR_BUILD)/gpgmejs.node
+OUT_JS          := $(DIR_BUILD)/gpgme.js
 
 NODE_ARR	:= $(shell node -p "const p=require('path'); \
 	[p.resolve(process.execPath, '..', '..'), require('node-addon-api').include].join(' ')")
