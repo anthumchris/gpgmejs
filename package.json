@@ -1,9 +1,22 @@
 {
   "name": "gpgme",
   "version": "0.0.1",
-  "module": "build/gpgme.js",
+  "description": "GPGME interface/bindings for JavaScript/TypeScript",
+  "homepage": "https://www.gnupg.org/software/gpgme/",
+  "license": "GPL-3.0-or-later",
   "type": "module",
+  "exports": "./build/gpgme.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthumchris/gpgmejs"
+  },
+  "bugs": {
+    "url": "https://github.com/anthumchris/gpgmejs/issues"
+  },
   "scripts": {
+    "preinstall": "node src/scripts/npm-preinstall.js",
+    "install": "make",
+
     "build": "make",
     "build-watch": "make build-watch",
     "clean": "make clean",

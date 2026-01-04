@@ -4,6 +4,7 @@ DIR_BUILD   := $(ROOT)/build
 DIR_TEST    := $(ROOT)/test
 SRC_CC      := $(DIR_SRC)/*.cc
 SRC_JS      := $(DIR_SRC)/*.js
+SRC_IGNORE  := **/scripts/**
 OUT_CC      := $(DIR_BUILD)/gpgmejs.node
 OUT_JS      := $(DIR_BUILD)/gpgme.js
 
@@ -59,7 +60,8 @@ $(OUT_CC): $(SRC_CC)
 $(OUT_JS): $(SRC_JS)
 	@ echo building JS...
 	@ mkdir -p $(DIR_BUILD)
-	@ find src -name "*.js" -print0 | xargs -0 -I {} cp {} build/
+	@ find $(DIR_SRC) -path "$(SRC_IGNORE)" -prune -o -name "*.js" -print0 \
+		| xargs -0 -I {} cp {} $(DIR_BUILD)
 	@ $(DONE_OK) "building JS"
 
 test:
@@ -83,7 +85,7 @@ dev: build
 		& wait
 build-watch:
 	@ $(WATCHING) "watching source files"
-	@ watchexec --quiet --exts cc,js --ignore $(DIR_BUILD) --watch $(DIR_SRC) -- \
+	@ watchexec --quiet --exts cc,js --ignore $(DIR_BUILD) --watch $(DIR_SRC) --ignore $(SRC_IGNORE) -- \
 		$(MAKE) $(WATCHFLAGS) --quiet build
 test-watch: build
 	@ sleep 0.01 # ensures echo below is complete after build-watch starts
