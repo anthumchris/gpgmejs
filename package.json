@@ -1,7 +1,7 @@
 {
-  "name": "node-addon",
+  "name": "gpgme",
   "version": "0.0.1",
-  "module": "lib/node-addon.js",
+  "module": "build/gpgme.js",
   "type": "module",
   "scripts": {
     "build": "make",
