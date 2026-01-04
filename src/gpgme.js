@@ -3,5 +3,5 @@
 import nodeAddon from './gpgmejs.node'
 
 export const {
-  hello
+  gpgVersion
 } = nodeAddon

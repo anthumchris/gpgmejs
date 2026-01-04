@@ -1,19 +1,15 @@
 #include <napi.h>
+#include <gpgme++/engineinfo.h>
 
+using namespace GpgME;
 using namespace Napi;
 using namespace std;
 
-String Hello(const CallbackInfo& info) {
-  Env env = info.Env();
-  string name = (info.Length() > 0)
-    ? " " + info[0].ToString().Utf8Value()
-    : "";
-  return String::New(env, "hello" + name);
-}
+string version = engineInfo(Protocol::OpenPGP).version();
 
-Object Init(Env env, Object exports) {
-  exports.Set(String::New(env, "hello"), Function::New(env, Hello));
+Object init(Env env, Object exports) {
+  exports.Set("gpgVersion", String::New(env, version));
   return exports;
 }
 
-NODE_API_MODULE(addon, Init)
+NODE_API_MODULE(TODO_no_effect, init)

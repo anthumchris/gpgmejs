@@ -1,19 +1,27 @@
-ROOT            := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-DIR_SRC         := $(ROOT)/src
-DIR_BUILD       := $(ROOT)/build
-DIR_TEST        := $(ROOT)/test
-SRC_CC          := $(DIR_SRC)/*.cc
-SRC_JS          := $(DIR_SRC)/*.js
-OUT_CC          := $(DIR_BUILD)/gpgmejs.node
-OUT_JS          := $(DIR_BUILD)/gpgme.js
+ROOT        := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+DIR_SRC     := $(ROOT)/src
+DIR_BUILD   := $(ROOT)/build
+DIR_TEST    := $(ROOT)/test
+SRC_CC      := $(DIR_SRC)/*.cc
+SRC_JS      := $(DIR_SRC)/*.js
+OUT_CC      := $(DIR_BUILD)/gpgmejs.node
+OUT_JS      := $(DIR_BUILD)/gpgme.js
 
-NODE_ARR	:= $(shell node -p "const p=require('path'); \
-	[p.resolve(process.execPath, '..', '..'), require('node-addon-api').include].join(' ')")
-NODE_INC	:= $(word 1, $(NODE_ARR))/include/node
-NAPI_INC	:= $(word 2, $(NODE_ARR))
-CXX      	:= g++
-CXXFLAGS 	:= -std=c++17 -fPIC -fexceptions -DNODE_ADDON_API_ENABLE_MAYBE
-INCLUDES 	:= -I$(NODE_INC) -I$(NAPI_INC)
+NODE_ARR    := $(shell node -p "const p=require('path'); \
+	          [p.resolve(process.execPath, '..', '..'), \
+	          require('node-addon-api').include].join(' ')")
+NODE_INC    := $(word 1, $(NODE_ARR))/include/node
+NAPI_INC    := $(word 2, $(NODE_ARR))
+CXX         := g++
+CXXFLAGS    := -std=c++17 -fPIC -fexceptions -DNODE_ADDON_API_ENABLE_MAYBE
+INCLUDES    := -I$(NODE_INC) -I$(NAPI_INC)
+LDFLAGS     := -lgpgmepp
+
+ifeq ($(shell uname), Darwin)
+	LDFLAGS += -undefined dynamic_lookup -dynamiclib
+else
+	LDFLAGS += -shared
+endif
 
 # multi-thread make with system's total CPU/processors
 #   uses (Linux || macOS || Windows || 1)
@@ -21,19 +29,13 @@ NPROCS		:= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo "$
 NPROCS		?= 1
 MAKEFLAGS	+= -j$(NPROCS)
 
-ifeq ($(shell uname), Darwin)
-	LDFLAGS := -undefined dynamic_lookup -dynamiclib
-else
-	LDFLAGS := -shared
-endif
-
 # log colors
 RED     := $(shell tput setaf 9)  # [1, 9, 124, 160, 196, 202]
 ORANGE  := $(shell tput setaf 208)  # [166, 202, 208, 214]
 GREEN   := $(shell tput setaf 2)  # [2, 10, 40, 41, 70, 71]
 RESET   := $(shell tput sgr0)     # default color
 
-# error/ok log utils
+# log utils
 DONE_ERROR  = printf "$(strip $(RED))error: %s$(RESET)\n" >&2
 DONE_OK     = printf "$(strip $(GREEN))%s ✓$(RESET)\n"
 WATCHING    = printf "$(strip $(ORANGE))%s$(RESET)\n"
@@ -61,8 +63,8 @@ $(OUT_JS): $(SRC_JS)
 	@ $(DONE_OK) "building JS"
 
 test:
-	@echo "testing..."
-	@NODE_FILES="$(DIR_BUILD)/*.node"; \
+	@ echo "testing..."
+	@ NODE_FILES="$(DIR_BUILD)/*.node"; \
 	FILES="$$(ls $$NODE_FILES 2>/dev/null)"; \
 	if [ -n "$$FILES" ]; then \
 		node --experimental-addon-modules --no-warnings=ExperimentalWarning $(DIR_TEST)/*.js && \
@@ -75,13 +77,13 @@ test:
 # developer mode to rebuild/retest on file changes
 WATCHFLAGS	:= MAKEFLAGS= --no-print-directory
 dev: build
-	@$(MAKE) $(WATCHFLAGS) build-watch & \
+	@ $(MAKE) $(WATCHFLAGS) build-watch & \
 		$(MAKE) $(WATCHFLAGS) test-watch & wait
 build-watch:
-	@$(WATCHING) "watching source files"
-	@watchexec --quiet --exts cc,js --ignore $(DIR_BUILD) --watch $(DIR_SRC) -- $(MAKE) $(WATCHFLAGS) --quiet build
+	@ $(WATCHING) "watching source files"
+	@ watchexec --quiet --exts cc,js --ignore $(DIR_BUILD) --watch $(DIR_SRC) -- $(MAKE) $(WATCHFLAGS) --quiet build
 test-watch: build
-	@sleep 0.01 # ensures echo below is complete after build-watch starts
-	@$(WATCHING) "watching test files"
-	@watchexec --quiet --exts node,js --watch test --no-vcs-ignore \
+	@ sleep 0.01 # ensures echo below is complete after build-watch starts
+	@ $(WATCHING) "watching test files"
+	@ watchexec --quiet --exts node,js --watch test --no-vcs-ignore \
 		--watch $(DIR_BUILD) -- $(MAKE) $(WATCHFLAGS) --quiet test

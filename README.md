@@ -10,14 +10,15 @@ JavaScript/TypeScript bindings ([nodejs addons](https://nodejs.org/api/addons.ht
 
 ## Usage
 
+*TODO*
+
 ## Developers
 
-1. Install `git`, `nodejs` (npm), `make`, `watchexec`, with your system's package manager, if needed
-1. Run
-   ```sh
-   git submodule update --init --depth 1
-   npm install
+1. Ensure these packages are installed with your system's package manager:
+   ```txt
+   make watchexec gpgmepp nodejs
    ```
+1. Run `npm install`
 2. Use workflow tasks below
 
 ### Workflow tasks
