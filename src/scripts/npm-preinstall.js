@@ -3,7 +3,7 @@
 import { promisify } from 'util'
 import { exec } from 'child_process'
 
-const name = 'gpgme'
+const name = 'gpgmejs'
 const run = promisify(exec)
 const systemDeps = [
   ['make',  'make'],

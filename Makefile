@@ -6,7 +6,7 @@ SRC_CC      := $(DIR_SRC)/*.cc
 SRC_JS      := $(DIR_SRC)/*.js
 SRC_IGNORE  := **/scripts/**
 OUT_CC      := $(DIR_BUILD)/gpgmejs.node
-OUT_JS      := $(DIR_BUILD)/gpgme.js
+OUT_JS      := $(DIR_BUILD)/gpgmejs.js
 
 NODE_ARR    := $(shell node -p "const p=require('path'); \
               [p.resolve(process.execPath, '..', '..'), \

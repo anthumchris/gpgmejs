@@ -1,11 +1,11 @@
 {
-  "name": "gpgme",
+  "name": "gpgmejs",
   "version": "0.0.1",
   "description": "GPGME interface/bindings for JavaScript/TypeScript",
   "homepage": "https://www.gnupg.org/software/gpgme/",
   "license": "GPL-3.0-or-later",
   "type": "module",
-  "exports": "./build/gpgme.js",
+  "exports": "./build/gpgmejs.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/anthumchris/gpgmejs"
