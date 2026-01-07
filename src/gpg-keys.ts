@@ -128,13 +128,13 @@ function gpgKeyTrustSet({ value: KeyTrustLevel }) {}
 /*  https://www.anthum.com/tmp/gnupgme/Signing-Keys.html#index-gpgme_005fop_005fkeysign
     ^2.1.12
   */
-function gpgSigAdd({ flags: FlagsSigAdd}) {}  // signs keys
+function gpgKeySigAdd({ flags: FlagsSigAdd}) {}  // signs keys
 
 
 /*  https://www.anthum.com/tmp/gnupgme/Signing-Keys.html#index-gpgme_005fop_005frevsig
     ^2.2.24
   */
-function gpgSigRvoke({ flags: FlagsSigRevoke}) {}  // signs keys
+function gpgKeySigRvoke({ flags: FlagsSigRevoke}) {}  // signs keys
 
 
 /*  https://www.anthum.com/tmp/gnupgme/Exporting-Keys.html#index-gpgme_005fop_005fexport
