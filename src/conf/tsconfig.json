@@ -1,0 +1,40 @@
+// https://www.typescriptlang.org/tsconfig/
+{
+  "include": [
+    "../",
+    "../../test"
+  ],
+  "compilerOptions": {
+    "rootDir": "../..",
+    "outDir": "../../build",
+
+    "lib": ["esnext"],
+    "types": ["node"],
+    "module": "esnext",
+    "target": "esnext",
+
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    "allowImportingTsExtensions": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmitOnError": true,
+    "noUncheckedSideEffectImports": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "verbatimModuleSyntax": true,
+  }
+}
